@@ -35,9 +35,7 @@ export default class MessageDao implements MessageDaoI {
      * database
      */
     findAllMessages = async (): Promise<Message[]> =>
-        MessageModel
-            .find()
-            .exec();
+        MessageModel.find().exec();
 
     /**
      * Uses MessageModel to retrieve all messages
