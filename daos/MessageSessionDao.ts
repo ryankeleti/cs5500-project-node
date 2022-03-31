@@ -35,10 +35,7 @@ export default class MessageSessionDao implements MessageSessionDaoI {
      * database
      */
     findAllSessions = async (): Promise<MessageSession[]> =>
-        MessageSessionModel
-            .find()
-            .populate("messageSession")
-            .exec();
+        MessageSessionModel.find().exec();
 
     /**
      * Uses MessageSessionModel to retrieve message session
@@ -47,9 +44,7 @@ export default class MessageSessionDao implements MessageSessionDaoI {
      * database
      */
     findSessionById = async (sid: string): Promise<any> =>
-        MessageSessionModel
-            .findById(sid)
-            .exec();
+        MessageSessionModel.findById(sid).exec();
 
     /**
      * creates new message session between two users
@@ -58,7 +53,7 @@ export default class MessageSessionDao implements MessageSessionDaoI {
      * @returns Promise To be notified when message session is created
      */
     createSession = async (uid1: string, uid2: string): Promise<MessageSession> =>
-        MessageSessionModel.create({members:[uid1, uid2]});
+        MessageSessionModel.create({members: [uid1, uid2]});
 
     /**
      * Removes message session from the database
