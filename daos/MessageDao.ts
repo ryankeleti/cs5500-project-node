@@ -30,12 +30,12 @@ export default class MessageDao implements MessageDaoI {
     }
 
     /**
-     * Uses MessageModel to retrieve all messages
+     * Uses MessageModel to retrieve all messages ordered by timestamp
      * @returns Promise To be notified when the messages are retrieved from
      * database
      */
     findAllMessages = async (): Promise<Message[]> =>
-        MessageModel.find().exec();
+        MessageModel.find().sort({timestamp: 'asc'}).exec();
 
     /**
      * Uses MessageModel to retrieve all messages
@@ -48,13 +48,13 @@ export default class MessageDao implements MessageDaoI {
 
     /**
      * Uses MessageModel to retrieve all message documents from messages collection
-     * in given session
+     * in given session, ordered by timestamp
      * @param {string} sid session id
      * @returns Promise To be notified when the messages are retrieved from
      * database
      */
     findMessagesInSession = async (sid: string): Promise<Message[]> =>
-        MessageModel.find({_id: sid}).exec();
+        MessageModel.find({_id: sid}).sort({timestamp: 'asc'}).exec();
 
     /**
      * Inserts new message instance into the database
