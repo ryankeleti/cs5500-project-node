@@ -4,6 +4,7 @@
 */
 import MessageDaoI from "../interfaces/MessageDaoI";
 import MessageModel from "../mongoose/messages/MessageModel";
+import MessageSessionModel from "../mongoose/messages/MessageSessionModel";
 import Message from "../models/messages/Message";
 
 /**
@@ -36,7 +37,6 @@ export default class MessageDao implements MessageDaoI {
     findAllMessages = async (): Promise<Message[]> =>
         MessageModel
             .find()
-            .populate("message")
             .exec();
 
     /**
@@ -46,9 +46,7 @@ export default class MessageDao implements MessageDaoI {
      * database
      */
     findMessageById = async (mid: string): Promise<any> =>
-        MessageModel
-            .findById(mid)
-            .exec();
+        MessageModel.findById(mid).exec();
 
     /**
      * Uses MessageModel to retrieve all message documents from messages collection
@@ -58,19 +56,24 @@ export default class MessageDao implements MessageDaoI {
      * database
      */
     findMessagesInSession = async (sid: string): Promise<Message[]> =>
-        MessageModel
-            .find({_id: sid})
-            .populate("message")
-            .exec();
+        MessageModel.find({_id: sid}).exec();
+
     /**
      * Inserts new message instance into the database
      * @param {string} uid User id of sender of the message
      * @param {string} sid Message Session id
      * @param {Message} message Message to be sent
-     * @returns Promise To be notified when message is inserted into the database
+     * @returns Promise To be notified when message is inserted into the database,
+     *                  null if uid is not a member of sid
      */
-    createMessage = async (uid: string, sid: string, message: Message): Promise<Message> =>
-        MessageModel.create({...message, sender: uid, session: sid});
+     createMessage = async (uid: string, sid: string, message: Message): Promise<any> =>
+       {
+         if (await MessageSessionModel.exists({_id: sid, members: {$elemMatch: {_id: uid}}})) {
+           return MessageModel.create({...message, sender: uid, session: sid});
+         } else {
+           return null;
+         }
+       }
 
      /**
      * Removes message from the database
