@@ -1,7 +1,7 @@
 /**
  * @file Implements DAO manages storage of messages. Uses mongoose MessageModel to
  * integrate with MongoDB
-*/
+ */
 import MessageDaoI from "../interfaces/MessageDaoI";
 import MessageModel from "../mongoose/messages/MessageModel";
 import MessageSessionModel from "../mongoose/messages/MessageSessionModel";
@@ -11,14 +11,14 @@ import Message from "../models/messages/Message";
  * @class MessageDao Implements Data Access Object managing data storage
  * of Message
  * @property {MessageDao} messageDao Private single instance of MessageDao
-*/
+ */
 export default class MessageDao implements MessageDaoI {
     private static messageDao: MessageDao | null = null;
 
     /**
      * Singleton DAO Instance
      * @returns MessageDao
-    */
+     */
     public static getInstance = (): MessageDao => {
         if (MessageDao.messageDao === null) {
             MessageDao.messageDao = new MessageDao();
@@ -26,8 +26,7 @@ export default class MessageDao implements MessageDaoI {
         return MessageDao.messageDao;
     }
 
-    private constructor() {
-    }
+    private constructor() {}
 
     /**
      * Uses MessageModel to retrieve all messages ordered by timestamp
@@ -38,7 +37,7 @@ export default class MessageDao implements MessageDaoI {
         MessageModel.find().sort({timestamp: 'asc'}).exec();
 
     /**
-     * Uses MessageModel to retrieve all messages
+     * Uses MessageModel to retrieve message by ID
      * @param mid message id for the message to be retrieved
      * @returns Promise To be notified when the message is retrieved from
      * database
@@ -73,7 +72,7 @@ export default class MessageDao implements MessageDaoI {
          }
        }
 
-     /**
+    /**
      * Removes message from the database
      * @param {string} mid Message id of the message
      * @returns Promise To be notified when message is removed from the database

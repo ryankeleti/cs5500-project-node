@@ -1,7 +1,7 @@
 /**
  * @file Implements DAO manages storage of messages sessions. Uses mongoose MessageSessionModel to
  * integrate with MongoDB
-*/
+ */
 import MessageSessionDaoI from "../interfaces/MessageSessionDaoI";
 import MessageSessionModel from "../mongoose/messages/MessageSessionModel";
 import MessageSession from "../models/messages/MessageSession";
@@ -11,7 +11,7 @@ import User from "../models/users/User";
  * @class MessageSessionDao Implements Data Access Object managing data storage
  * of Message Session
  * @property {MessageSessionDao} messageSessionDao Private single instance of MessageSessionDao
-*/
+ */
 export default class MessageSessionDao implements MessageSessionDaoI {
     private static messageSessionDao: MessageSessionDao | null = null;
 
@@ -26,11 +26,10 @@ export default class MessageSessionDao implements MessageSessionDaoI {
         return MessageSessionDao.messageSessionDao;
     }
 
-    private constructor() {
-    }
+    private constructor() {}
 
     /**
-     * Uses MessageSessionModel to retrieve all messages sessions
+     * Uses MessageSessionModel to retrieve all message sessions
      * @returns Promise To be notified when the message sessions are retrieved from
      * database
      */
@@ -47,13 +46,13 @@ export default class MessageSessionDao implements MessageSessionDaoI {
         MessageSessionModel.findById(sid).exec();
 
     /**
-     * creates new message session between two users
+     * Creates a new message session
      * @param {string} uid1 User id of first user
      * @param {string} uid2 User id of second user
      * @returns Promise To be notified when message session is created
      */
-    createSession = async (uid1: string, uid2: string): Promise<MessageSession> =>
-        MessageSessionModel.create({members: [uid1, uid2]});
+    createSession = async (session: MessageSession): Promise<MessageSession> =>
+        MessageSessionModel.create(session);
 
     /**
      * Removes message session from the database
