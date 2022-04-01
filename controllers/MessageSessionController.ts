@@ -1,5 +1,5 @@
 /**
- * @file Controller RESTful Web service API for messages resource
+ * @file Controller RESTful Web service API for message sessions resource
  */
 import MessageSessionDao from "../daos/MessageSessionDao";
 import MessageSession from "../models/messages/MessageSession"
@@ -7,13 +7,13 @@ import {Express, Request, Response} from "express";
 import MessageSessionControllerI from "../interfaces/MessageSessionControllerI";
 
 /**
- * @class MessageControllerI Implements RESTful Web service API for messages resource.
+ * @class MessageSessionController Implements RESTful Web service API for messages resource.
  * Defines the following HTTP endpoints:
  * <ul>
- *     <li>POST /api/sessions to create a new message session instance </li>
- *     <li>GET /api/sessions to retrieve all the message session instances</li>
- *     <li>GET /api/sessions/:sid to retrieve a particular message session instance</li>
- *     <li>DELETE /api/sessions/:sid to remove a particular message session instance</li>
+ *     <li>POST /api/:uid/sessions to create a new message session instance </li>
+ *     <li>GET /api/:uid/sessions to retrieve all the message session instances</li>
+ *     <li>GET /api/:uid/sessions/:sid to retrieve a particular message session instance</li>
+ *     <li>DELETE /api/:uid/sessions/:sid to remove a particular message session instance</li>
  * </ul>
  * @property {MessageSessionDao} messageSessionDao Singleton DAO implementing message CRUD operations
  * @property {MessageSessionController} messageSessionController Singleton controller implementing
@@ -30,12 +30,12 @@ export default class MessageSessionController implements MessageSessionControlle
      * @return MessageSessionController
      */
     public static getInstance = (app: Express): MessageSessionController => {
-        if(MessageSessionController.messageSessionController === null) {
+        if (MessageSessionController.messageSessionController === null) {
             MessageSessionController.messageSessionController = new MessageSessionController();
-            app.get("/api/sessions", MessageSessionController.messageSessionController.findAllSessions);
-            app.get("/api/sessions/:sid", MessageSessionController.messageSessionController.findSessionById);
-            app.post("/api/sessions", MessageSessionController.messageSessionController.createSession);
-            app.delete("/api/sessions/:sid", MessageSessionController.messageSessionController.deleteSession);
+            app.get("/api/:uid/sessions", MessageSessionController.messageSessionController.findAllSessions);
+            app.get("/api/:uid/sessions/:sid", MessageSessionController.messageSessionController.findSessionById);
+            app.post("/api/:uid/sessions", MessageSessionController.messageSessionController.createSession);
+            app.delete("/api/:uid/sessions/:sid", MessageSessionController.messageSessionController.deleteSession);
         }
         return MessageSessionController.messageSessionController;
     }
@@ -74,7 +74,6 @@ export default class MessageSessionController implements MessageSessionControlle
         MessageSessionController.messageSessionDao.createSession(req.body)
             .then((messageSession: MessageSession) => res.json(messageSession));
     }
-
 
     /**
      * @param {Request} req Represents request from client, including path
