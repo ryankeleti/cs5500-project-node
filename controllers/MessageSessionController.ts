@@ -10,7 +10,7 @@ import MessageSessionControllerI from "../interfaces/MessageSessionControllerI";
  * @class MessageSessionController Implements RESTful Web service API for messages resource.
  * Defines the following HTTP endpoints:
  * <ul>
- *     <li>POST /api/users/:uid/sessions to create a new message session instance </li>
+ *     <li>POST /api/sessions to create a new message session instance </li>
  *     <li>GET /api/users/:uid/sessions to retrieve all the message session instances</li>
  *     <li>GET /api/sessions/:sid to retrieve a particular message session instance</li>
  *     <li>DELETE /api/sessions/:sid to remove a particular message session instance</li>
@@ -34,7 +34,7 @@ export default class MessageSessionController implements MessageSessionControlle
             MessageSessionController.messageSessionController = new MessageSessionController();
             app.get("/api/users/:uid/sessions", MessageSessionController.messageSessionController.findSessionsByUser);
             app.get("/api/sessions/:sid", MessageSessionController.messageSessionController.findSessionById);
-            app.post("/api/users/:uid/sessions", MessageSessionController.messageSessionController.createSession);
+            app.post("/api/sessions", MessageSessionController.messageSessionController.createSession);
             app.delete("/api/sessions/:sid", MessageSessionController.messageSessionController.deleteSession);
         }
         return MessageSessionController.messageSessionController;
