@@ -29,12 +29,12 @@ export default class MessageSessionDao implements MessageSessionDaoI {
     private constructor() {}
 
     /**
-     * Uses MessageSessionModel to retrieve all message sessions
+     * Uses MessageSessionModel to retrieve all message sessions for a given user
      * @returns Promise To be notified when the message sessions are retrieved from
      * database
      */
-    findAllSessions = async (): Promise<MessageSession[]> =>
-        MessageSessionModel.find().exec();
+    findSessionsByUser = async (uid: string): Promise<MessageSession[]> =>
+        MessageSessionModel.find({members: {$elemMatch: {_id: uid}}}).exec();
 
     /**
      * Uses MessageSessionModel to retrieve message session
