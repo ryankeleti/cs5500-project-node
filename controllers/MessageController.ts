@@ -34,7 +34,7 @@ export default class MessageController implements MessageControllerI {
     public static getInstance = (app: Express): MessageController => {
         if (MessageController.messageController === null) {
             MessageController.messageController = new MessageController();
-            app.get("/api/users/:uid/messages", MessageController.messageController.findAllMessage);
+            app.get("/api/users/:uid/messages", MessageController.messageController.findAllMessages);
             app.get("/api/users/:uid/messages/:mid", MessageController.messageController.findMessageById);
             app.get("/api/users/:uid/messages/session/:sid", MessageController.messageController.findMessagesInSession);
             app.post("/api/users/:uid/messages/session/:sid", MessageController.messageController.createMessage);
@@ -51,7 +51,7 @@ export default class MessageController implements MessageControllerI {
      * @param {Response} res Represents response to client, including the
      * body formatted as JSON arrays containing the message objects
      */
-    findAllMessage = (req: Request, res: Response) =>
+    findAllMessages = (req: Request, res: Response) =>
         MessageController.messageDao.findAllMessages()
             .then((messages: Message[]) => res.json(messages));
 

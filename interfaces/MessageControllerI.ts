@@ -7,7 +7,7 @@ import {Request, Response} from "express";
  * @interface MessageControllerI defines RESTful Web service API for messaging resource.
  */
 export default interface MessageControllerI {
-    findAllMessage (req: Request, res: Response): void;
+    findAllMessages (req: Request, res: Response): void;
     findMessageById (req: Request, res: Response): void;
     createMessage (req: Request, res: Response): void;
     deleteMessage (req: Request, res: Response): void;
