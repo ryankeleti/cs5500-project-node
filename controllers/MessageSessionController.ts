@@ -10,10 +10,10 @@ import MessageSessionControllerI from "../interfaces/MessageSessionControllerI";
  * @class MessageSessionController Implements RESTful Web service API for messages resource.
  * Defines the following HTTP endpoints:
  * <ul>
- *     <li>POST /api/:uid/sessions to create a new message session instance </li>
- *     <li>GET /api/:uid/sessions to retrieve all the message session instances</li>
- *     <li>GET /api/:uid/sessions/:sid to retrieve a particular message session instance</li>
- *     <li>DELETE /api/:uid/sessions/:sid to remove a particular message session instance</li>
+ *     <li>POST /api/users/:uid/sessions to create a new message session instance </li>
+ *     <li>GET /api/users/:uid/sessions to retrieve all the message session instances</li>
+ *     <li>GET /api/users/:uid/sessions/:sid to retrieve a particular message session instance</li>
+ *     <li>DELETE /api/users/:uid/sessions/:sid to remove a particular message session instance</li>
  * </ul>
  * @property {MessageSessionDao} messageSessionDao Singleton DAO implementing message CRUD operations
  * @property {MessageSessionController} messageSessionController Singleton controller implementing
@@ -32,10 +32,10 @@ export default class MessageSessionController implements MessageSessionControlle
     public static getInstance = (app: Express): MessageSessionController => {
         if (MessageSessionController.messageSessionController === null) {
             MessageSessionController.messageSessionController = new MessageSessionController();
-            app.get("/api/:uid/sessions", MessageSessionController.messageSessionController.findAllSessions);
-            app.get("/api/:uid/sessions/:sid", MessageSessionController.messageSessionController.findSessionById);
-            app.post("/api/:uid/sessions", MessageSessionController.messageSessionController.createSession);
-            app.delete("/api/:uid/sessions/:sid", MessageSessionController.messageSessionController.deleteSession);
+            app.get("/api/users/:uid/sessions", MessageSessionController.messageSessionController.findAllSessions);
+            app.get("/api/users/:uid/sessions/:sid", MessageSessionController.messageSessionController.findSessionById);
+            app.post("/api/users/:uid/sessions", MessageSessionController.messageSessionController.createSession);
+            app.delete("/api/users/:uid/sessions/:sid", MessageSessionController.messageSessionController.deleteSession);
         }
         return MessageSessionController.messageSessionController;
     }

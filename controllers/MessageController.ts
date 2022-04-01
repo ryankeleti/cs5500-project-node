@@ -10,12 +10,12 @@ import MessageControllerI from "../interfaces/MessageControllerI"
  * @class MessageController Implements RESTful Web service API for messages resource.
  * Defines the following HTTP endpoints:
  * <ul>
- *     <li>POST /api/:uid/messages/session/:sid to create a new message instance for
+ *     <li>POST /api/users/:uid/messages/session/:sid to create a new message instance for
  *     a message session</li>
- *     <li>GET /api/:uid/messages to retrieve all the message instances</li>
- *     <li>GET /api/:uid/messages/:mid to retrieve a particular message instance</li>
- *     <li>GET /api/:uid/messages/session/:sid to retrieve all messages for a given message session </li>
- *     <li>DELETE /api/:uid/messages/:mid to remove a particular message instance</li>
+ *     <li>GET /api/users/:uid/messages to retrieve all the message instances</li>
+ *     <li>GET /api/users/:uid/messages/:mid to retrieve a particular message instance</li>
+ *     <li>GET /api/users/:uid/messages/session/:sid to retrieve all messages for a given message session </li>
+ *     <li>DELETE /api/users/:uid/messages/:mid to remove a particular message instance</li>
  * </ul>
  * @property {MessageDao} messageDao Singleton DAO implementing message CRUD operations
  * @property {MessageController} messageController Singleton controller implementing
@@ -34,11 +34,11 @@ export default class MessageController implements MessageControllerI {
     public static getInstance = (app: Express): MessageController => {
         if (MessageController.messageController === null) {
             MessageController.messageController = new MessageController();
-            app.get("/api/:uid/messages", MessageController.messageController.findAllMessage);
-            app.get("/api/:uid/messages/:mid", MessageController.messageController.findMessageById);
-            app.get("/api/:uid/messages/session/:sid", MessageController.messageController.findMessagesInSession);
-            app.post("/api/:uid/messages/session/:sid", MessageController.messageController.createMessage);
-            app.delete("/api/:uid/messages/:mid", MessageController.messageController.deleteMessage);
+            app.get("/api/users/:uid/messages", MessageController.messageController.findAllMessage);
+            app.get("/api/users/:uid/messages/:mid", MessageController.messageController.findMessageById);
+            app.get("/api/users/:uid/messages/session/:sid", MessageController.messageController.findMessagesInSession);
+            app.post("/api/users/:uid/messages/session/:sid", MessageController.messageController.createMessage);
+            app.delete("/api/users/:uid/messages/:mid", MessageController.messageController.deleteMessage);
         }
         return MessageController.messageController;
     }
