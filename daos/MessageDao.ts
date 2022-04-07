@@ -37,6 +37,14 @@ export default class MessageDao implements MessageDaoI {
         MessageModel.find().sort({timestamp: 'asc'}).exec();
 
     /**
+     * Uses MessageModel to retrieve all messages sent by a user ordered by timestamp
+     * @returns Promise To be notified when the messages are retrieved from
+     * database
+     */
+    findAllMessagesSentByUser = async (uid:string): Promise<Message[]> =>
+        MessageModel.find({sender: uid}).sort({timestamp: 'asc'}).exec();
+
+    /**
      * Uses MessageModel to retrieve message by ID
      * @param mid message id for the message to be retrieved
      * @returns Promise To be notified when the message is retrieved from
@@ -53,7 +61,7 @@ export default class MessageDao implements MessageDaoI {
      * database
      */
     findMessagesInSession = async (sid: string): Promise<Message[]> =>
-        MessageModel.find({_id: sid}).sort({timestamp: 'asc'}).exec();
+        MessageModel.find({session: sid}).sort({timestamp: 'asc'}).exec();
 
     /**
      * Inserts new message instance into the database

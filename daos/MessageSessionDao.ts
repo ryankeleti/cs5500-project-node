@@ -5,7 +5,7 @@
 import MessageSessionDaoI from "../interfaces/MessageSessionDaoI";
 import MessageSessionModel from "../mongoose/messages/MessageSessionModel";
 import MessageSession from "../models/messages/MessageSession";
-import User from "../models/users/User";
+
 
 /**
  * @class MessageSessionDao Implements Data Access Object managing data storage
@@ -27,6 +27,14 @@ export default class MessageSessionDao implements MessageSessionDaoI {
     }
 
     private constructor() {}
+
+    /**
+     * Uses MessageSessionModel to retrieve all message sessions created in the MongoDB database
+     * @returns Promise To be notified when the message sessions are retrieved from
+     * database
+     */
+    findAllSessions = async (): Promise<MessageSession[]> =>
+        MessageSessionModel.find();
 
     /**
      * Uses MessageSessionModel to retrieve all message sessions for a given user
