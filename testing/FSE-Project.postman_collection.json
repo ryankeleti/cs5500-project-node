@@ -1,0 +1,271 @@
+{
+	"info": {
+		"_postman_id": "5560f434-1d50-427b-962f-5b22a538ea28",
+		"name": "FSE-Project",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "MessageSession",
+			"item": [
+				{
+					"name": "Create Message Session",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"members\": [\n            {\n                \"username\": \"test2\",\n                \"password\": \"test456\",\n                \"firstName\": \"Test2\",\n                \"lastName\": \"Test User2\",\n                \"email\": \"test2@gmail.com\",\n                \"salary\": 50000,\n                \"_id\": \"624e5af8c521b12a691873b7\"\n            },\n            {\n                \"username\": \"test\",\n                \"password\": \"test123\",\n                \"firstName\": \"Test\",\n                \"lastName\": \"Test User\",\n                \"email\": \"test@gmail.com\",\n                \"salary\": 50000,\n                \"_id\": \"624e5b19c521b12a691873ba\"\n            }\n        ]\n    }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:4000/api/sessions",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "4000",
+							"path": [
+								"api",
+								"sessions"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Session By User",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:4000/api/users/624e5af8c521b12a691873b7/sessions",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "4000",
+							"path": [
+								"api",
+								"users",
+								"624e5af8c521b12a691873b7",
+								"sessions"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Session By Id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:4000/api/sessions/624e6fedc521b12a691873c3",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "4000",
+							"path": [
+								"api",
+								"sessions",
+								"624e6fedc521b12a691873c3"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get all sessions",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:4000/api/sessions",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "4000",
+							"path": [
+								"api",
+								"sessions"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete a session",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:4000/api/sessions/624e6fedc521b12a691873c3",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "4000",
+							"path": [
+								"api",
+								"sessions",
+								"624e6fedc521b12a691873c3"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Message",
+			"item": [
+				{
+					"name": "Create a Message",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"message\" : \"Hiiii\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:4000/api/users/624e5af8c521b12a691873b7/messages/session/624e7585dd70c32207aa03db",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "4000",
+							"path": [
+								"api",
+								"users",
+								"624e5af8c521b12a691873b7",
+								"messages",
+								"session",
+								"624e7585dd70c32207aa03db"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Find Messages in a session",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:4000/api/messages/session/624e7585dd70c32207aa03db",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "4000",
+							"path": [
+								"api",
+								"messages",
+								"session",
+								"624e7585dd70c32207aa03db"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Find All Messages",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:4000/api/messages",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "4000",
+							"path": [
+								"api",
+								"messages"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Find Messages sent by a user",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:4000/api/users/624e5af8c521b12a691873b7/messages",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "4000",
+							"path": [
+								"api",
+								"users",
+								"624e5af8c521b12a691873b7",
+								"messages"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Find Messages By id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:4000/api/messages/624e76411478796db5388883",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "4000",
+							"path": [
+								"api",
+								"messages",
+								"624e76411478796db5388883"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Messages",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:4000/api/messages/624e76411478796db5388883",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "4000",
+							"path": [
+								"api",
+								"messages",
+								"624e76411478796db5388883"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
