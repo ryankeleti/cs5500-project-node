@@ -22,6 +22,7 @@ import AuthenticationController from "./controllers/AuthenticationController";
 import GroupController from "./controllers/GroupController";
 const cors = require("cors");
 const session = require("express-session");
+require('dotenv').config()
 
 // build the connection string
 const PROTOCOL = "mongodb+srv";

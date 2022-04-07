@@ -12,10 +12,11 @@ import MessageControllerI from "../interfaces/MessageControllerI"
  * <ul>
  *     <li>POST /api/users/:uid/messages/session/:sid to create a new message instance for
  *     a message session</li>
- *     <li>GET /api/users/:uid/messages to retrieve all the message instances</li>
- *     <li>GET /api/users/:uid/messages/:mid to retrieve a particular message instance</li>
- *     <li>GET /api/users/:uid/messages/session/:sid to retrieve all messages for a given message session </li>
- *     <li>DELETE /api/users/:uid/messages/:mid to remove a particular message instance</li>
+ *     <li> GET /api/messages to retrieve all the message instances from the database</li>
+ *     <li>GET /api/users/:uid/messages to retrieve all the messages sent by a user</li>
+ *     <li>GET api/messages/:mid to retrieve a particular message instance</li>
+ *     <li>GET /api/messages/session/:sid to retrieve all messages for a given message session </li>
+ *     <li>DELETE /api/messages/:mid to remove a particular message instance</li>
  * </ul>
  * @property {MessageDao} messageDao Singleton DAO implementing message CRUD operations
  * @property {MessageController} messageController Singleton controller implementing
@@ -34,11 +35,12 @@ export default class MessageController implements MessageControllerI {
     public static getInstance = (app: Express): MessageController => {
         if (MessageController.messageController === null) {
             MessageController.messageController = new MessageController();
-            app.get("/api/users/:uid/messages", MessageController.messageController.findAllMessages);
-            app.get("/api/users/:uid/messages/:mid", MessageController.messageController.findMessageById);
-            app.get("/api/users/:uid/messages/session/:sid", MessageController.messageController.findMessagesInSession);
+            app.get("/api/messages", MessageController.messageController.findAllMessages);
+            app.get("/api/users/:uid/messages", MessageController.messageController.findAllMessagesSentByUser);
+            app.get("/api/messages/:mid", MessageController.messageController.findMessageById);
+            app.get("/api/messages/session/:sid", MessageController.messageController.findMessagesInSession);
             app.post("/api/users/:uid/messages/session/:sid", MessageController.messageController.createMessage);
-            app.delete("/api/users/:uid/messages/:mid", MessageController.messageController.deleteMessage);
+            app.delete("/api/messages/:mid", MessageController.messageController.deleteMessage);
         }
         return MessageController.messageController;
     }
@@ -55,6 +57,15 @@ export default class MessageController implements MessageControllerI {
         MessageController.messageDao.findAllMessages()
             .then((messages: Message[]) => res.json(messages));
 
+    /**
+     * Retrieves all messages sent by the user from the database and returns an array of messages.
+     * @param {Request} req Represents request from client
+     * @param {Response} res Represents response to client, including the
+     * body formatted as JSON arrays containing the message objects
+     */
+    findAllMessagesSentByUser = (req: Request, res: Response) =>
+        MessageController.messageDao.findAllMessagesSentByUser(req.params.uid)
+            .then((messages: Message[]) => res.json(messages));
     /**
      * @param {Request} req Represents request from client, including path
      * parameter mid identifying the primary key of the message to be retrieved

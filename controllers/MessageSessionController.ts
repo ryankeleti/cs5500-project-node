@@ -11,6 +11,7 @@ import MessageSessionControllerI from "../interfaces/MessageSessionControllerI";
  * Defines the following HTTP endpoints:
  * <ul>
  *     <li>POST /api/sessions to create a new message session instance </li>
+ *     <li> GET /api/sessions to retrieve all the message sessions from the database </li>
  *     <li>GET /api/users/:uid/sessions to retrieve all the message session instances</li>
  *     <li>GET /api/sessions/:sid to retrieve a particular message session instance</li>
  *     <li>DELETE /api/sessions/:sid to remove a particular message session instance</li>
@@ -32,6 +33,7 @@ export default class MessageSessionController implements MessageSessionControlle
     public static getInstance = (app: Express): MessageSessionController => {
         if (MessageSessionController.messageSessionController === null) {
             MessageSessionController.messageSessionController = new MessageSessionController();
+            app.get("/api/sessions", MessageSessionController.messageSessionController.findAllSessions);
             app.get("/api/users/:uid/sessions", MessageSessionController.messageSessionController.findSessionsByUser);
             app.get("/api/sessions/:sid", MessageSessionController.messageSessionController.findSessionById);
             app.post("/api/sessions", MessageSessionController.messageSessionController.createSession);
@@ -41,6 +43,16 @@ export default class MessageSessionController implements MessageSessionControlle
     }
 
     private constructor() {}
+
+    /**
+     * Retrieves all message sessions from the database and returns an array of message sessions.
+     * @param {Request} req Represents request from client
+     * @param {Response} res Represents response to client, including the
+     * body formatted as JSON arrays containing the message objects
+     */
+    findAllSessions = (req: Request, res: Response) =>
+        MessageSessionController.messageSessionDao.findAllSessions()
+            .then((messageSessions: MessageSession[])=>res.json(messageSessions));
 
     /**
      * Retrieves all message sessions for a user from the database and returns an array of message sessions.
