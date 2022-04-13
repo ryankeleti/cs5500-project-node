@@ -42,7 +42,8 @@ export default class MessageSessionController implements MessageSessionControlle
         return MessageSessionController.messageSessionController;
     }
 
-    private constructor() {}
+    private constructor() {
+    }
 
     /**
      * Retrieves all message sessions from the database and returns an array of message sessions.
@@ -52,7 +53,7 @@ export default class MessageSessionController implements MessageSessionControlle
      */
     findAllSessions = (req: Request, res: Response) =>
         MessageSessionController.messageSessionDao.findAllSessions()
-            .then((messageSessions: MessageSession[])=>res.json(messageSessions));
+            .then((messageSessions: MessageSession[]) => res.json(messageSessions));
 
     /**
      * Retrieves all message sessions for a user from the database and returns an array of message sessions.
@@ -60,9 +61,21 @@ export default class MessageSessionController implements MessageSessionControlle
      * @param {Response} res Represents response to client, including the
      * body formatted as JSON arrays containing the message objects
      */
-    findSessionsByUser = (req: Request, res: Response) =>
-        MessageSessionController.messageSessionDao.findSessionsByUser(req.params.uid)
+    findSessionsByUser = (req: Request, res: Response) => {
+        // @ts-ignore
+        let userId = req.params.uid === "my" && req.session['profile'] ?
+            // @ts-ignore
+            req.session['profile']._id : req.params.uid;
+            console.log(userId);
+        if (userId === "my") {
+            res.sendStatus(503);
+            return;
+        }
+        MessageSessionController.messageSessionDao.findSessionsByUser(userId)
             .then((messageSessions: MessageSession[]) => res.json(messageSessions));
+
+    }
+
 
     /**
      * @param {Request} req Represents request from client, including path
