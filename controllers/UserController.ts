@@ -12,8 +12,9 @@ import UserControllerI from "../interfaces/UserControllerI";
  * <ul>
  *     <li>POST /api/users to create a new user instance</li>
  *     <li>GET /api/users to retrieve all the user instances</li>
- *     <li>GET /api/users/:uid to retrieve an individual user instance </li>
- *     <li>PUT /api/users to modify an individual user instance </li>
+ *     <li>GET /api/users/username/:username to retrieve an individual user instance by username</li>
+ *     <li>GET /api/users/:uid to retrieve an individual user instance</li>
+ *     <li>PUT /api/users to modify an individual user instance</li>
  *     <li>DELETE /api/users/:uid to remove a particular user instance</li>
  * </ul>
  * @property {UserDao} userDao Singleton DAO implementing user CRUD operations
@@ -37,6 +38,8 @@ export default class UserController implements UserControllerI {
             // RESTful User Web service API
             app.get("/api/users",
                 UserController.userController.findAllUsers);
+            app.get("/api/users/username/:username",
+                UserController.userController.findUserByUsername);
             app.get("/api/users/:uid",
                 UserController.userController.findUserById);
             app.post("/api/users",
@@ -82,6 +85,17 @@ export default class UserController implements UserControllerI {
      */
     findUserById = (req: Request, res: Response) =>
         UserController.userDao.findUserById(req.params.uid)
+            .then((user: User) => res.json(user));
+
+    /**
+     * Retrieves the user by their username
+     * @param {Request} req Represents request from client, including path
+     * parameter username identifying the username the user to be retrieved
+     * @param {Response} res Represents response to client, including the
+     * body formatted as JSON containing the user that matches the username
+     */
+    findUserByUsername = (req: Request, res: Response) =>
+        UserController.userDao.findUserByUsername(req.params.username)
             .then((user: User) => res.json(user));
     
     /**

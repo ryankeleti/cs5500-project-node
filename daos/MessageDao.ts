@@ -6,6 +6,7 @@ import MessageDaoI from "../interfaces/MessageDaoI";
 import MessageModel from "../mongoose/messages/MessageModel";
 import MessageSessionModel from "../mongoose/messages/MessageSessionModel";
 import Message from "../models/messages/Message";
+import mongoose from "mongoose";
 
 /**
  * @class MessageDao Implements Data Access Object managing data storage
@@ -60,8 +61,16 @@ export default class MessageDao implements MessageDaoI {
      * @returns Promise To be notified when the messages are retrieved from
      * database
      */
-    findMessagesInSession = async (sid: string): Promise<Message[]> =>
-        MessageModel.find({session: sid}).sort({timestamp: 'asc'}).exec();
+    findMessagesInSession = async (sid: string): Promise<Message[]> => {
+        if (mongoose.isValidObjectId(sid)) {
+            return MessageModel.find({session: sid})
+                               .sort({timestamp: 'asc'})
+                               .populate('sender')
+                               .exec();
+        } else {
+            return [];
+        }
+    }
 
     /**
      * Inserts new message instance into the database
