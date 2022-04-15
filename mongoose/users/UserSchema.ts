@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 import User from "../../models/users/User";
 const UserSchema = new mongoose.Schema<User>({
-    username: {type: String, required: true, default: `testusername${Date.now()}`},
+    username: {type: String, required: true, unique: true, default: `testusername${Date.now()}`},
     password: {type: String, required: true, default: `testpassword${Date.now()}`},
     firstName: String,
     lastName: String,
@@ -16,7 +16,6 @@ const UserSchema = new mongoose.Schema<User>({
         latitude: Number,
         longitude: Number
     },
-    salary: {type: Number, default: 50000}
 }, {collection: "users"});
 
 export default UserSchema;

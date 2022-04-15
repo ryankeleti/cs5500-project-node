@@ -8,5 +8,5 @@ import UserSchema from "../users/UserSchema";
 
 const MessageSessionSchema = new mongoose.Schema<MessageSession>({
     members: {type: [UserSchema], default: []}
-}, {collection: "messageSession"});
+}, {collection: "message_sessions"});
 export default MessageSessionSchema;

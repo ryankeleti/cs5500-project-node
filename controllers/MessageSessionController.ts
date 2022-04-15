@@ -38,6 +38,7 @@ export default class MessageSessionController implements MessageSessionControlle
             app.get("/api/sessions/:sid", MessageSessionController.messageSessionController.findSessionById);
             app.post("/api/sessions", MessageSessionController.messageSessionController.createSession);
             app.delete("/api/sessions/:sid", MessageSessionController.messageSessionController.deleteSession);
+            app.put("/api/users/:inviter/sessions/:sid/invite/:invitee", MessageSessionController.messageSessionController.addUserToSession);
         }
         return MessageSessionController.messageSessionController;
     }
@@ -99,6 +100,15 @@ export default class MessageSessionController implements MessageSessionControlle
         MessageSessionController.messageSessionDao.createSession(req.body)
             .then((messageSession: MessageSession) => res.json(messageSession));
     }
+
+    /**
+     * @param {Request} req Represents request from client, including params for user to be added to a session in the database
+     * @param {Response} res Represents response to client, including the
+     * body formatted as JSON containing the update status
+     */
+    addUserToSession = (req: Request, res: Response) =>
+        MessageSessionController.messageSessionDao.addUserToSession(req.params.sid, req.params.inviter, req.params.invitee)
+            .then((status) => res.send(status));
 
     /**
      * @param {Request} req Represents request from client, including path

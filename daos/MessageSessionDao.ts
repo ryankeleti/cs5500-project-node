@@ -5,7 +5,8 @@
 import MessageSessionDaoI from "../interfaces/MessageSessionDaoI";
 import MessageSessionModel from "../mongoose/messages/MessageSessionModel";
 import MessageSession from "../models/messages/MessageSession";
-
+import UserDao from "../daos/UserDao";
+import mongoose from "mongoose";
 
 /**
  * @class MessageSessionDao Implements Data Access Object managing data storage
@@ -50,8 +51,11 @@ export default class MessageSessionDao implements MessageSessionDaoI {
      * @returns Promise To be notified when the message session is retrieved from
      * database
      */
-    findSessionById = async (sid: string): Promise<any> =>
-        MessageSessionModel.findById(sid).exec();
+    findSessionById = async (sid: string): Promise<any> => {
+        if (mongoose.isValidObjectId(sid)) {
+            return MessageSessionModel.findById(sid).exec();
+        }
+    }
 
     /**
      * Creates a new message session
@@ -61,6 +65,30 @@ export default class MessageSessionDao implements MessageSessionDaoI {
      */
     createSession = async (session: MessageSession): Promise<MessageSession> =>
         MessageSessionModel.create(session);
+
+
+    /**
+     * Adds a user to a message session if not already a member
+     * @param {string} sid MessageSession id
+     * @param {string} inviter User id of inviter. Must belong to sid
+     * @param {string} invitee User id being invited
+     * @returns Promise To be notified when message session is created
+     */
+    addUserToSession = async (sid: string, inviter: string, invitee: string): Promise<any> => {
+        if (mongoose.isValidObjectId(sid)
+            && mongoose.isValidObjectId(inviter)
+            && mongoose.isValidObjectId(invitee)) {
+            if (await MessageSessionModel.exists({_id: sid, members: {$elemMatch: {_id: inviter}}})) {
+                if (await MessageSessionModel.exists({_id: sid, members: {$elemMatch: {_id: invitee}}})) {
+                    return null;
+                }
+                const newMember = await UserDao.getInstance().findUserById(invitee);
+                MessageSessionModel.updateOne(
+                   {_id: sid},
+                   {$push: {members: newMember}}).exec();
+            }
+        }
+    }
 
     /**
      * Removes message session from the database
