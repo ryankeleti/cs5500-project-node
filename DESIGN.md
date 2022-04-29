@@ -67,6 +67,6 @@ backend API. The major components were broken down into smaller pieces:
 Due to not using something more complicted like Websockets for our messaging
 API, we relied on a simple polling method to keep the messages in sync for
 all users in a conversation. At a set interval, the REST API was hit for
-new messages.
+new messages or members.
 
 
