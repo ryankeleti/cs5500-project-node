@@ -38,5 +38,6 @@ and timestamp. Messages sent by the logged in user will be highlighted blue
 and right aligned, and messages by other users will be highlighted gray and
 left aligned. When a new message is added to the session, the window will
 scroll to the bottom to display it. Users can scroll upwards to view past
-messages.
+messages. The currently signed in user can click the delete icon next to
+their messages to delete any sent messages.
 
