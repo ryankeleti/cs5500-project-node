@@ -5,6 +5,7 @@
 Deploying the application is near identical to Assignment 4.
 
 ## Production
+
 First, set up a MongoDB Atlas instance as usual (and allow access
 from `0.0.0.0` or selected IP addresses).
 
@@ -28,4 +29,9 @@ To deploy locally, run `npm run build` and
 
 Set `.env` in the react repo to
 `REACT_APP_BASE_URL=http://localhost:4000`, and run `npm run start`.
+
+## Deployed
+
+Netlify instance: https://incredible-pastelito-9d0af9.netlify.app/
+Heroku instance: https://cs5500-messages-project.herokuapp.com/
 
